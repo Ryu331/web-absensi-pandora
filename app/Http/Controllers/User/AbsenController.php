@@ -83,16 +83,23 @@ class AbsenController extends Controller
      */
     public function store(Request $request)
     {
+        $requestType = $request->input('request_type');
+
         $validated = $request->validate([
             'request_type' => ['required', 'in:masuk,keluar'],
             'lokasi'       => ['nullable', 'string', 'max:255'],
             'latitude'     => ['nullable', 'numeric', 'between:-90,90'],
             'longitude'    => ['nullable', 'numeric', 'between:-180,180'],
-            'foto_wajah'   => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:5120'],
+            'foto_wajah'   => [
+                $requestType === 'masuk' ? 'required' : 'nullable',
+                'image',
+                'mimes:jpg,jpeg,png',
+                'max:5120',
+            ],
             'catatan'      => ['nullable', 'string', 'max:1000'],
+        ], [
+            'foto_wajah.required' => 'Foto wajah wajib. Scan wajah terlebih dahulu sebelum absen masuk.',
         ]);
-
-        $requestType = $validated['request_type'];
 
         if ($requestType === 'masuk') {
             $todayAbsen = Absen::where('user_id', Auth::id())
@@ -113,10 +120,7 @@ class AbsenController extends Controller
                 return back()->with('error', 'Permintaan absen masuk Anda sudah menunggu konfirmasi admin.');
             }
 
-            $fotoPath = null;
-            if ($request->hasFile('foto_wajah')) {
-                $fotoPath = $request->file('foto_wajah')->store('foto_absen', 'public');
-            }
+            $fotoPath = $request->file('foto_wajah')->store('foto_absen', 'public');
 
             if ($todayAbsen && $todayAbsen->status === 'tidak_dikonfirmasi') {
                 $todayAbsen->update([
