@@ -17,7 +17,7 @@
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center gap-4">
                     <a href="{{ Auth::user()->role === 'admin' ? route('admin.dashboard') : route('user.dashboard') }}"
-                       class="text-2xl font-bold text-sky-400">Pandora</a>
+                       class="text-2xl font-bold text-sky-500">Pandora</a>
                     <span class="text-sm text-slate-400 hidden sm:inline">Sistem Absensi</span>
                 </div>
 

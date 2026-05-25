@@ -8,7 +8,7 @@
 </div>
 
 {{-- STATUS BANNER --}}
-<div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl shadow-lg p-6 mb-8 text-white">
+<div class="bg-gradient-to-r from-blue-400 to-blue-800 rounded-xl shadow-lg p-6 mb-8 text-white">
     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
             <p class="text-sm opacity-80 uppercase tracking-wide">Status Absensi</p>
